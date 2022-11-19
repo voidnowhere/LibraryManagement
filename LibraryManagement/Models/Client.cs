@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionBibliotheque.Models
+namespace LibraryManagment.Models
 {
     internal class Client : Utilisateur
     {
