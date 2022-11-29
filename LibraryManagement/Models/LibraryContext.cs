@@ -22,5 +22,10 @@ namespace LibraryManagment.Models
         {
             optionsBuilder.UseMySql("Server=localhost;Database=Library;uid=root;password=", new MySqlServerVersion(new Version(8, 0, 30)));
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Ouvrage>().HasDiscriminator(o => o.Type);
+        }
     }
 }
