@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace LibraryManagment.Models
     internal abstract class Ouvrage
     {
         public int Id { get; set; }
+        public string Type { get; }
         public string Auteur { get; set; }
         public string Titre { get; set; }
         public int Quantite { get; set; }
