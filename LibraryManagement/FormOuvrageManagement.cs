@@ -1,4 +1,5 @@
 ﻿using LibraryManagment.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,12 +15,9 @@ namespace LibraryManagement
 {
     public partial class FormOuvrageManagement : Form
     {
-        private LibraryContext _libraryContext;
-
         public FormOuvrageManagement()
         {
             InitializeComponent();
-            _libraryContext = new LibraryContext();
         }
 
         private void clearAllTextBoxs()
@@ -49,9 +48,24 @@ namespace LibraryManagement
             {
                 return;
             }
-            if(comboBoxOuvrageType.SelectedIndex == 0) // Periodic
+            if (!Regex.IsMatch(textBoxPeriodicity.Text, @"^\d+$"))
             {
-                _libraryContext.Periodiques.Add(new Periodique
+                MessageBox.Show("Periodicity should contains only numbers!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxPeriodicity.Focus();
+                return;
+            }
+            if (!Regex.IsMatch(textBoxQuantity.Text, @"^\d+$"))
+            {
+                MessageBox.Show("Quantity should contains only numbers!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxQuantity.Focus();
+                return;
+            }
+
+            using LibraryContext libraryContext = new LibraryContext();
+
+            if (comboBoxOuvrageType.SelectedIndex == 0) // Periodic
+            {
+                libraryContext.Periodiques.Add(new Periodique
                 {
                     Auteur = textBoxAuthor.Text,
                     Titre = textBoxTitle.Text,
@@ -59,22 +73,22 @@ namespace LibraryManagement
                     Disponible = int.Parse(textBoxQuantity.Text),
                     Periodicite = int.Parse(textBoxPeriodicity.Text)
                 });
-                _libraryContext.SaveChanges();
+                libraryContext.SaveChanges();
             }
             else if(comboBoxOuvrageType.SelectedIndex == 1) // CD
             {
-                _libraryContext.CDs.Add(new CD
+                libraryContext.CDs.Add(new CD
                 {
                     Auteur = textBoxAuthor.Text,
                     Titre = textBoxTitle.Text,
                     Quantite = int.Parse(textBoxQuantity.Text),
                     Disponible = int.Parse(textBoxQuantity.Text)
                 });
-                _libraryContext.SaveChanges();
+                libraryContext.SaveChanges();
             }
             else if(comboBoxOuvrageType.SelectedIndex == 2) // Book
             {
-                _libraryContext.Livres.Add(new Livre
+                libraryContext.Livres.Add(new Livre
                 {
                     Auteur = textBoxAuthor.Text,
                     Titre = textBoxTitle.Text,
@@ -82,21 +96,24 @@ namespace LibraryManagement
                     Disponible = int.Parse(textBoxQuantity.Text),
                     Editeur = textBoxEditor.Text
                 });
-                _libraryContext.SaveChanges();
+                libraryContext.SaveChanges();
             }
             clearAllTextBoxs();
-            comboBoxOuvrageType_SelectedIndexChanged(sender, e);
+            comboBoxOuvrageType_SelectedIndexChanged(sender, new EventArgs());
         }
 
         private void comboBoxOuvrageType_SelectedIndexChanged(object sender, EventArgs e)
         {
             clearAllTextBoxs();
             listViewOuvrages.Items.Clear();
+
+            using LibraryContext libraryContext = new LibraryContext();
+
             if (comboBoxOuvrageType.SelectedIndex == 0) // Periodic
             {
                 textBoxPeriodicity.Enabled = true;
                 textBoxEditor.Enabled = false;
-                foreach (Periodique periodique in _libraryContext.Periodiques.ToList())
+                foreach (Periodique periodique in libraryContext.Periodiques.AsNoTracking().ToList())
                 {
                     ListViewItem listViewItem = new ListViewItem(periodique.Id.ToString());
                     listViewItem.SubItems.Add(periodique.Auteur);
@@ -111,7 +128,7 @@ namespace LibraryManagement
             {
                 textBoxPeriodicity.Enabled = false;
                 textBoxEditor.Enabled = false;
-                foreach (CD cd in _libraryContext.CDs.ToList())
+                foreach (CD cd in libraryContext.CDs.AsNoTracking().ToList())
                 {
                     ListViewItem listViewItem = new ListViewItem(cd.Id.ToString());
                     listViewItem.SubItems.Add(cd.Auteur);
@@ -125,7 +142,7 @@ namespace LibraryManagement
             {
                 textBoxPeriodicity.Enabled = false;
                 textBoxEditor.Enabled = true;
-                foreach (Livre livre in _libraryContext.Livres.ToList())
+                foreach (Livre livre in libraryContext.Livres.AsNoTracking().ToList())
                 {
                     ListViewItem listViewItem = new ListViewItem(livre.Id.ToString());
                     listViewItem.SubItems.Add(livre.Auteur);
@@ -163,9 +180,21 @@ namespace LibraryManagement
             {
                 return;
             }
-            if (listViewOuvrages.SelectedIndices.Count <= 0)
+            if (listViewOuvrages.SelectedIndices.Count == 0)
             {
                 MessageBox.Show("Please select an item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (!Regex.IsMatch(textBoxPeriodicity.Text, @"^\d+$"))
+            {
+                MessageBox.Show("Periodicity should contains only numbers!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxPeriodicity.Focus();
+                return;
+            }
+            if (!Regex.IsMatch(textBoxQuantity.Text, @"^\d+$"))
+            {
+                MessageBox.Show("Quantity should contains only numbers!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxQuantity.Focus();
                 return;
             }
 
@@ -178,10 +207,12 @@ namespace LibraryManagement
                 return;
             }
 
+            using LibraryContext libraryContext = new LibraryContext();
+
             int ouvrageId = int.Parse(listViewOuvrages.SelectedItems[0].SubItems[0].Text);
             if (comboBoxOuvrageType.SelectedIndex == 0) // Periodic
             {
-                Periodique periodique = _libraryContext.Periodiques.Find(ouvrageId);
+                Periodique periodique = libraryContext.Periodiques.Find(ouvrageId);
                 periodique.Auteur = textBoxAuthor.Text;
                 periodique.Titre = textBoxTitle.Text;
                 if (newQuantity > oldQuantity)
@@ -190,11 +221,11 @@ namespace LibraryManagement
                     periodique.Disponible += newQuantity - oldQuantity;
                 }
                 periodique.Periodicite = int.Parse(textBoxPeriodicity.Text);
-                _libraryContext.SaveChanges();
+                libraryContext.SaveChanges();
             }
             else if (comboBoxOuvrageType.SelectedIndex == 1) // CD
             {
-                CD cd = _libraryContext.CDs.Find(ouvrageId);
+                CD cd = libraryContext.CDs.Find(ouvrageId);
                 cd.Auteur = textBoxAuthor.Text;
                 cd.Titre = textBoxTitle.Text;
                 if (newQuantity > oldQuantity)
@@ -202,11 +233,11 @@ namespace LibraryManagement
                     cd.Quantite = newQuantity;
                     cd.Disponible += newQuantity - oldQuantity;
                 }
-                _libraryContext.SaveChanges();
+                libraryContext.SaveChanges();
             }
             else if (comboBoxOuvrageType.SelectedIndex == 2) // Book
             {
-                Livre livre = _libraryContext.Livres.Find(ouvrageId);
+                Livre livre = libraryContext.Livres.Find(ouvrageId);
                 livre.Auteur = textBoxAuthor.Text;
                 livre.Titre = textBoxTitle.Text;
                 if (newQuantity > oldQuantity)
@@ -215,7 +246,7 @@ namespace LibraryManagement
                     livre.Disponible += newQuantity - oldQuantity;
                 }
                 livre.Editeur = textBoxEditor.Text;
-                _libraryContext.SaveChanges();
+                libraryContext.SaveChanges();
             }
             comboBoxOuvrageType_SelectedIndexChanged(sender, e);
         }

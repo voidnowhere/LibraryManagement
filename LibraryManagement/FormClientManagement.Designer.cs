@@ -45,70 +45,74 @@
             // 
             // textBoxFirstName
             // 
-            this.textBoxFirstName.Location = new System.Drawing.Point(93, 43);
+            this.textBoxFirstName.Location = new System.Drawing.Point(67, 11);
+            this.textBoxFirstName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxFirstName.Name = "textBoxFirstName";
-            this.textBoxFirstName.Size = new System.Drawing.Size(150, 27);
+            this.textBoxFirstName.Size = new System.Drawing.Size(132, 23);
             this.textBoxFirstName.TabIndex = 0;
             // 
             // textBoxLastName
             // 
-            this.textBoxLastName.Location = new System.Drawing.Point(93, 76);
+            this.textBoxLastName.Location = new System.Drawing.Point(67, 38);
+            this.textBoxLastName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxLastName.Name = "textBoxLastName";
-            this.textBoxLastName.Size = new System.Drawing.Size(150, 27);
+            this.textBoxLastName.Size = new System.Drawing.Size(132, 23);
             this.textBoxLastName.TabIndex = 1;
             // 
             // textBoxCIN
             // 
-            this.textBoxCIN.Location = new System.Drawing.Point(93, 113);
+            this.textBoxCIN.Location = new System.Drawing.Point(67, 65);
+            this.textBoxCIN.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxCIN.Name = "textBoxCIN";
-            this.textBoxCIN.Size = new System.Drawing.Size(150, 27);
+            this.textBoxCIN.Size = new System.Drawing.Size(132, 23);
             this.textBoxCIN.TabIndex = 2;
             // 
             // labelFirstName
             // 
             this.labelFirstName.AutoSize = true;
-            this.labelFirstName.Location = new System.Drawing.Point(12, 46);
+            this.labelFirstName.Location = new System.Drawing.Point(12, 14);
             this.labelFirstName.Name = "labelFirstName";
-            this.labelFirstName.Size = new System.Drawing.Size(60, 20);
+            this.labelFirstName.Size = new System.Drawing.Size(49, 15);
             this.labelFirstName.TabIndex = 3;
             this.labelFirstName.Text = "Prenom";
-            this.labelFirstName.Click += new System.EventHandler(this.label1_Click);
             // 
             // labelLastName
             // 
             this.labelLastName.AutoSize = true;
-            this.labelLastName.Location = new System.Drawing.Point(12, 79);
+            this.labelLastName.Location = new System.Drawing.Point(12, 41);
             this.labelLastName.Name = "labelLastName";
-            this.labelLastName.Size = new System.Drawing.Size(42, 20);
+            this.labelLastName.Size = new System.Drawing.Size(34, 15);
             this.labelLastName.TabIndex = 4;
             this.labelLastName.Text = "Nom";
             // 
             // labelCin
             // 
             this.labelCin.AutoSize = true;
-            this.labelCin.Location = new System.Drawing.Point(12, 116);
+            this.labelCin.Location = new System.Drawing.Point(12, 68);
             this.labelCin.Name = "labelCin";
-            this.labelCin.Size = new System.Drawing.Size(33, 20);
+            this.labelCin.Size = new System.Drawing.Size(27, 15);
             this.labelCin.TabIndex = 5;
-            this.labelCin.Text = "CIN";
+            this.labelCin.Text = "NIC";
             // 
             // buttonAjouter
             // 
-            this.buttonAjouter.Location = new System.Drawing.Point(293, 46);
+            this.buttonAjouter.Location = new System.Drawing.Point(256, 25);
+            this.buttonAjouter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonAjouter.Name = "buttonAjouter";
-            this.buttonAjouter.Size = new System.Drawing.Size(94, 29);
+            this.buttonAjouter.Size = new System.Drawing.Size(82, 22);
             this.buttonAjouter.TabIndex = 6;
-            this.buttonAjouter.Text = "Ajouter";
+            this.buttonAjouter.Text = "Add";
             this.buttonAjouter.UseVisualStyleBackColor = true;
             this.buttonAjouter.Click += new System.EventHandler(this.buttonAjouter_Click);
             // 
             // buttonModifier
             // 
-            this.buttonModifier.Location = new System.Drawing.Point(293, 107);
+            this.buttonModifier.Location = new System.Drawing.Point(256, 51);
+            this.buttonModifier.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonModifier.Name = "buttonModifier";
-            this.buttonModifier.Size = new System.Drawing.Size(94, 29);
+            this.buttonModifier.Size = new System.Drawing.Size(82, 22);
             this.buttonModifier.TabIndex = 8;
-            this.buttonModifier.Text = "Modifier";
+            this.buttonModifier.Text = "Modify";
             this.buttonModifier.UseVisualStyleBackColor = true;
             this.buttonModifier.Click += new System.EventHandler(this.buttonModifier_Click);
             // 
@@ -121,10 +125,11 @@
             this.CIN});
             this.listViewClients.FullRowSelect = true;
             this.listViewClients.GridLines = true;
-            this.listViewClients.Location = new System.Drawing.Point(12, 150);
+            this.listViewClients.Location = new System.Drawing.Point(10, 112);
+            this.listViewClients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listViewClients.MultiSelect = false;
             this.listViewClients.Name = "listViewClients";
-            this.listViewClients.Size = new System.Drawing.Size(446, 289);
+            this.listViewClients.Size = new System.Drawing.Size(447, 218);
             this.listViewClients.TabIndex = 9;
             this.listViewClients.UseCompatibleStateImageBehavior = false;
             this.listViewClients.View = System.Windows.Forms.View.Details;
@@ -137,24 +142,24 @@
             // 
             // Nom
             // 
-            this.Nom.Text = "Nom";
+            this.Nom.Text = "Last Name";
             this.Nom.Width = 150;
             // 
             // Prenom
             // 
-            this.Prenom.Text = "Prenom";
+            this.Prenom.Text = "First Name";
             this.Prenom.Width = 150;
             // 
             // CIN
             // 
-            this.CIN.Text = "CIN";
+            this.CIN.Text = "NIC";
             this.CIN.Width = 100;
             // 
             // FormClientManagement
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(473, 451);
+            this.ClientSize = new System.Drawing.Size(477, 346);
             this.Controls.Add(this.listViewClients);
             this.Controls.Add(this.buttonModifier);
             this.Controls.Add(this.buttonAjouter);
@@ -164,6 +169,8 @@
             this.Controls.Add(this.textBoxCIN);
             this.Controls.Add(this.textBoxLastName);
             this.Controls.Add(this.textBoxFirstName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormClientManagement";
             this.Text = "FormClientManagement";
             this.Load += new System.EventHandler(this.FormClientManagement_Load);
