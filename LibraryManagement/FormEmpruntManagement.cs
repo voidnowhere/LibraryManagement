@@ -102,9 +102,9 @@ namespace LibraryManagement
             using LibraryContext libraryContext = new LibraryContext();
 
             Client? client = libraryContext.Clients
-                .AsNoTracking()
                 .Include(c => c.Emprunts.Where(e => e.Ouvrage.Type == getComboBoxOuvrageType()))
                 .ThenInclude(e => e.Ouvrage)
+                .AsNoTracking()
                 .FirstOrDefault(c => c.CIN == textBoxNIC.Text);
 
             if (client is null)
@@ -161,10 +161,15 @@ namespace LibraryManagement
                 MessageBox.Show("Please select an ouvrage!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (dateTimePickerFrom.Value >= dateTimePickerTo.Value)
+            {
+                MessageBox.Show("From date should be lower than to date!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             using LibraryContext libraryContext = new LibraryContext();
 
-            Client client = libraryContext.Clients.First(c => c.CIN == textBoxNIC.Text);
+            Client client = libraryContext.Clients.AsNoTracking().First(c => c.CIN == textBoxNIC.Text);
 
             // if the client did not retrun the borrowed ouvrages he cannot borrow
             if (libraryContext.Emprunts.Count(e => e.Client == client && !e.Retourne) > 0)
@@ -242,8 +247,8 @@ namespace LibraryManagement
                 using LibraryContext libraryContext = new LibraryContext();
 
                 Ouvrage ouvrage = libraryContext.Emprunts
-                    .AsNoTracking()
                     .Include(e => e.Ouvrage)
+                    .AsNoTracking()
                     .First(e => e.Id == int.Parse(listViewClientEmprunts.SelectedItems[0].SubItems[0].Text)).Ouvrage;
 
                 labelOuvrageDetails.Text = $"{ouvrage.Id} / {ouvrage.Auteur} / {ouvrage.Titre}";

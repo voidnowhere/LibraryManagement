@@ -1,4 +1,5 @@
 ﻿using LibraryManagment.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,21 +15,17 @@ namespace LibraryManagement
 {
     public partial class FormClientManagement : Form
     {
-        private LibraryContext _libraryContext;
         public FormClientManagement()
         {
             InitializeComponent();
-            _libraryContext = new LibraryContext();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
         private void fillListViewClients()
         {
+            using LibraryContext libraryContext = new LibraryContext();
+
             listViewClients.Items.Clear();
-            foreach (Client client in _libraryContext.Clients.ToList())
+            foreach (Client client in libraryContext.Clients.AsNoTracking().ToList())
             {
                 ListViewItem listViewItem = new ListViewItem(client.Id.ToString());
                 listViewItem.SubItems.Add(client.Nom);
@@ -36,7 +33,6 @@ namespace LibraryManagement
                 listViewItem.SubItems.Add(client.CIN);
                 listViewClients.Items.Add(listViewItem);
             };
-
         }
 
         private void buttonAjouter_Click(object sender, EventArgs e)
@@ -61,41 +57,34 @@ namespace LibraryManagement
                 MessageBox.Show("please put a valid CIN", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (_libraryContext.Clients.Count( c => c.CIN == textBoxCIN.Text ) > 0)
+
+            using LibraryContext libraryContext = new LibraryContext();
+
+            if (libraryContext.Clients.AsNoTracking().Count( c => c.CIN == textBoxCIN.Text ) > 0)
             {
                 MessageBox.Show("this CIN already exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-
-            _libraryContext.Clients.Add(new Client
+            libraryContext.Clients.Add(new Client
             {
                 Nom = textBoxLastName.Text,
                 Prenom = textBoxFirstName.Text,
                 CIN = textBoxCIN.Text,
             });
-            _libraryContext.SaveChanges();
+            libraryContext.SaveChanges();
             
             textBoxFirstName.Clear();
             textBoxLastName.Clear();
             textBoxCIN.Clear();
             fillListViewClients();
-
         }
-
-
 
         private void buttonModifier_Click(object sender, EventArgs e)
         {
-            
             if (listViewClients.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Please select an item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (_libraryContext.Clients.Count(c => c.CIN == textBoxCIN.Text && c.Id != int.Parse(listViewClients.SelectedItems[0].SubItems[0].Text)) == 1)
-            {
-                MessageBox.Show("this CIN already exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if(Regex.IsMatch(textBoxFirstName.Text, @"^[a-zA-Z]+$") == false)
@@ -114,19 +103,25 @@ namespace LibraryManagement
                 return;
             }
 
-            int clientId = int.Parse(listViewClients.SelectedItems[0].SubItems[0].Text);
-            Client client = _libraryContext.Clients.Find(clientId); ;
+            using LibraryContext libraryContext = new LibraryContext();
 
+            if (libraryContext.Clients.AsNoTracking().Count(c => c.CIN == textBoxCIN.Text && c.Id != int.Parse(listViewClients.SelectedItems[0].SubItems[0].Text)) == 1)
+            {
+                MessageBox.Show("this CIN already exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Client client = libraryContext.Clients.Find(int.Parse(listViewClients.SelectedItems[0].SubItems[0].Text));
             client.Prenom = textBoxFirstName.Text;
             client.Nom= textBoxLastName.Text;
             client.CIN = textBoxCIN.Text;
-            _libraryContext.SaveChanges(); 
+
+            libraryContext.SaveChanges(); 
+            
             textBoxFirstName.Clear();
             textBoxLastName.Clear();
             textBoxCIN.Clear();
             fillListViewClients();
-
-
         }
 
         private void listViewClient_SelectedIndexChanged(object sender, EventArgs e)
@@ -139,7 +134,6 @@ namespace LibraryManagement
                 textBoxCIN.Text = listView.SubItems[3].Text;
             }
         }
-
 
         private void FormClientManagement_Load(object sender, EventArgs e)
         {

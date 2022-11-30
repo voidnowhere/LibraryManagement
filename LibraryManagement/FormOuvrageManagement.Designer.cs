@@ -248,6 +248,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxAuthor);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormOuvrageManagement";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormOuvrageManagement";

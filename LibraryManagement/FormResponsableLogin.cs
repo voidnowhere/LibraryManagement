@@ -14,31 +14,14 @@ namespace LibraryManagement
 {
     public partial class FormResponsableLogin : Form
     {
-        private LibraryContext _libraryContext;
         public FormResponsableLogin()
         {
             InitializeComponent();
-            _libraryContext = new LibraryContext();
-        }
-
-        private void FormResponsableLogin_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxLogin_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxMDP_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            if (textBoxLogin.Text.Length < 0 || textBoxMDP.Text.Length < 0)
+            if (textBoxLogin.Text.Length == 0 || textBoxMDP.Text.Length == 0)
             {
                 MessageBox.Show("Please check your login or Password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -48,17 +31,22 @@ namespace LibraryManagement
                 MessageBox.Show("Invalid format for login", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (_libraryContext.Clients.Count(c => c.Id == int.Parse(textBoxLogin.Text)) == 1)
-            {
-                MessageBox.Show("Connecté", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                textBoxLogin.Clear();
-                textBoxMDP.Clear();
 
-            }
-            else
+            using LibraryContext libraryContext = new LibraryContext();
+
+            Responsable? responsable = libraryContext.Responsables.FirstOrDefault(r => r.Id == int.Parse(textBoxLogin.Text));
+
+            if (responsable is null)
             {
-                MessageBox.Show("Login not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Verify your login and password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+
+            textBoxLogin.Clear();
+            textBoxMDP.Clear();
+
+            Hide();
+            new FormMenu(responsable.Id, responsable.Admin, this).Show();
         }
     }
 }
