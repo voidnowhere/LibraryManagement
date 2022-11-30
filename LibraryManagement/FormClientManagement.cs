@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -45,15 +46,36 @@ namespace LibraryManagement
                 MessageBox.Show("Tous les champs sont obligatoire", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if(Regex.IsMatch(textBoxFirstName.Text, @"^[a-zA-Z]+$") == false)
+            {
+                MessageBox.Show("invalid format in First name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (Regex.IsMatch(textBoxLastName.Text, @"^[a-zA-Z]+$") == false)
+            {
+                MessageBox.Show("invalid format in Last name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (Regex.IsMatch(textBoxCIN.Text, @"^[a-zA-Z]{2}\d{6}$") == false)
+            {
+                MessageBox.Show("please put a valid CIN", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (_libraryContext.Clients.Count( c => c.CIN == textBoxCIN.Text ) > 0)
+            {
+                MessageBox.Show("this CIN already exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
 
             _libraryContext.Clients.Add(new Client
             {
-                Nom = textBoxFirstName.Text,
-                Prenom = textBoxLastName.Text,
+                Nom = textBoxLastName.Text,
+                Prenom = textBoxFirstName.Text,
                 CIN = textBoxCIN.Text,
             });
             _libraryContext.SaveChanges();
-
+            
             textBoxFirstName.Clear();
             textBoxLastName.Clear();
             textBoxCIN.Clear();
@@ -65,13 +87,57 @@ namespace LibraryManagement
 
         private void buttonModifier_Click(object sender, EventArgs e)
         {
+            
+            if (listViewClients.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select an item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (_libraryContext.Clients.Count(c => c.CIN == textBoxCIN.Text && c.Id != int.Parse(listViewClients.SelectedItems[0].SubItems[0].Text)) == 1)
+            {
+                MessageBox.Show("this CIN already exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if(Regex.IsMatch(textBoxFirstName.Text, @"^[a-zA-Z]+$") == false)
+            {
+                MessageBox.Show("invalid format in First name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (Regex.IsMatch(textBoxLastName.Text, @"^[a-zA-Z]+$") == false)
+            {
+                MessageBox.Show("invalid format in Last name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (Regex.IsMatch(textBoxCIN.Text, @"^[a-zA-Z]{2}\d{6}$") == false)
+            {
+                MessageBox.Show("please put a valid CIN", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int clientId = int.Parse(listViewClients.SelectedItems[0].SubItems[0].Text);
+            Client client = _libraryContext.Clients.Find(clientId); ;
+
+            client.Prenom = textBoxFirstName.Text;
+            client.Nom= textBoxLastName.Text;
+            client.CIN = textBoxCIN.Text;
+            _libraryContext.SaveChanges(); 
+            textBoxFirstName.Clear();
+            textBoxLastName.Clear();
+            textBoxCIN.Clear();
+            fillListViewClients();
+
 
         }
 
         private void listViewClient_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //_libraryContext.Clients.Find();
-            _libraryContext.Clients.Count(c => c.CIN == textBoxCIN.Text && c.Id != int.Parse(listViewClients.SelectedItems[0].SubItems[0].ToString()));
+            if (listViewClients.SelectedItems.Count > 0)
+            {
+                ListViewItem listView = listViewClients.SelectedItems[0];
+                textBoxLastName.Text = listView.SubItems[1].Text;
+                textBoxFirstName.Text = listView.SubItems[2].Text;
+                textBoxCIN.Text = listView.SubItems[3].Text;
+            }
         }
 
 
@@ -79,7 +145,5 @@ namespace LibraryManagement
         {
             fillListViewClients();
         }
-
-        
     }
 }
