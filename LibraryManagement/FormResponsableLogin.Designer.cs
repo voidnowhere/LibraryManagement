@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormResponsableLogin));
             this.textBoxLogin = new System.Windows.Forms.TextBox();
             this.textBoxMDP = new System.Windows.Forms.TextBox();
             this.Login = new System.Windows.Forms.Label();
@@ -37,43 +38,45 @@
             // 
             // textBoxLogin
             // 
-            this.textBoxLogin.Location = new System.Drawing.Point(129, 55);
+            this.textBoxLogin.Location = new System.Drawing.Point(112, 33);
+            this.textBoxLogin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxLogin.Name = "textBoxLogin";
-            this.textBoxLogin.Size = new System.Drawing.Size(146, 27);
+            this.textBoxLogin.Size = new System.Drawing.Size(128, 23);
             this.textBoxLogin.TabIndex = 0;
-            this.textBoxLogin.TextChanged += new System.EventHandler(this.textBoxLogin_TextChanged);
             // 
             // textBoxMDP
             // 
-            this.textBoxMDP.Location = new System.Drawing.Point(129, 125);
+            this.textBoxMDP.Location = new System.Drawing.Point(112, 86);
+            this.textBoxMDP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxMDP.Name = "textBoxMDP";
-            this.textBoxMDP.Size = new System.Drawing.Size(146, 27);
+            this.textBoxMDP.PasswordChar = '*';
+            this.textBoxMDP.Size = new System.Drawing.Size(128, 23);
             this.textBoxMDP.TabIndex = 1;
-            this.textBoxMDP.TextChanged += new System.EventHandler(this.textBoxMDP_TextChanged);
             // 
             // Login
             // 
             this.Login.AutoSize = true;
-            this.Login.Location = new System.Drawing.Point(34, 58);
+            this.Login.Location = new System.Drawing.Point(29, 36);
             this.Login.Name = "Login";
-            this.Login.Size = new System.Drawing.Size(46, 20);
+            this.Login.Size = new System.Drawing.Size(37, 15);
             this.Login.TabIndex = 2;
             this.Login.Text = "Login";
             // 
             // MotDePasse
             // 
             this.MotDePasse.AutoSize = true;
-            this.MotDePasse.Location = new System.Drawing.Point(34, 128);
+            this.MotDePasse.Location = new System.Drawing.Point(29, 88);
             this.MotDePasse.Name = "MotDePasse";
-            this.MotDePasse.Size = new System.Drawing.Size(70, 20);
+            this.MotDePasse.Size = new System.Drawing.Size(57, 15);
             this.MotDePasse.TabIndex = 3;
             this.MotDePasse.Text = "Password";
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(147, 195);
+            this.buttonLogin.Location = new System.Drawing.Point(128, 138);
+            this.buttonLogin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(101, 29);
+            this.buttonLogin.Size = new System.Drawing.Size(88, 27);
             this.buttonLogin.TabIndex = 4;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.UseVisualStyleBackColor = true;
@@ -81,17 +84,19 @@
             // 
             // FormResponsableLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(331, 270);
+            this.ClientSize = new System.Drawing.Size(290, 202);
             this.Controls.Add(this.buttonLogin);
             this.Controls.Add(this.MotDePasse);
             this.Controls.Add(this.Login);
             this.Controls.Add(this.textBoxMDP);
             this.Controls.Add(this.textBoxLogin);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormResponsableLogin";
-            this.Text = "FormResponsableLogin";
-            this.Load += new System.EventHandler(this.FormResponsableLogin_Load);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 

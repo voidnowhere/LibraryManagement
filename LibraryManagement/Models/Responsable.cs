@@ -15,6 +15,6 @@ namespace LibraryManagment.Models
         public string Password { get; set; }
 
         [DefaultValue(false)]
-        public bool Admin { get; }
+        public bool Admin { get; set; }
     }
 }

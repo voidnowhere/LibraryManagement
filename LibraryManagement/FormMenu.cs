@@ -12,9 +12,21 @@ namespace LibraryManagement
 {
     public partial class FormMenu : Form
     {
-        public FormMenu()
+        private int responsableId;
+        private bool admin;
+        private FormResponsableLogin formResponsableLogin;
+
+        public FormMenu(int reponsableId, bool admin, FormResponsableLogin formResponsableLogin)
         {
             InitializeComponent();
+            this.responsableId = reponsableId;
+            this.admin = admin;
+            this.formResponsableLogin = formResponsableLogin;
+        }
+
+        private void FormMenu_Load(object sender, EventArgs e)
+        {
+            responsibleManagementToolStripMenuItem.Enabled = admin;
         }
 
         private void clientManagementToolStripMenuItem_Click(object sender, EventArgs e)
@@ -22,7 +34,7 @@ namespace LibraryManagement
             clientManagementToolStripMenuItem.Enabled = false;
             ouvrageManagementToolStripMenuItem.Enabled = true;
             borrowManagementToolStripMenuItem.Enabled = true;
-            responsibleManagementToolStripMenuItem.Enabled = true;
+            responsibleManagementToolStripMenuItem.Enabled = admin;
             resetPasswordToolStripMenuItem.Enabled = true;
             FormClientManagement clientManagement = new FormClientManagement();
             clientManagement.MdiParent = this;
@@ -35,7 +47,7 @@ namespace LibraryManagement
             clientManagementToolStripMenuItem.Enabled = true;
             ouvrageManagementToolStripMenuItem.Enabled = false;
             borrowManagementToolStripMenuItem.Enabled = true;
-            responsibleManagementToolStripMenuItem.Enabled = true;
+            responsibleManagementToolStripMenuItem.Enabled = admin;
             resetPasswordToolStripMenuItem.Enabled = true;
             FormOuvrageManagement ouvrageManagement = new FormOuvrageManagement();
             ouvrageManagement.MdiParent = this;
@@ -48,7 +60,7 @@ namespace LibraryManagement
             clientManagementToolStripMenuItem.Enabled = true;
             ouvrageManagementToolStripMenuItem.Enabled = true;
             borrowManagementToolStripMenuItem.Enabled = false;
-            responsibleManagementToolStripMenuItem.Enabled = true;
+            responsibleManagementToolStripMenuItem.Enabled = admin;
             resetPasswordToolStripMenuItem.Enabled = true;
             FormEmpruntManagement empruntManagement = new FormEmpruntManagement();
             empruntManagement.MdiParent = this;
@@ -74,8 +86,13 @@ namespace LibraryManagement
             clientManagementToolStripMenuItem.Enabled = true;
             ouvrageManagementToolStripMenuItem.Enabled = true;
             borrowManagementToolStripMenuItem.Enabled = true;
-            responsibleManagementToolStripMenuItem.Enabled = true;
-            resetPasswordToolStripMenuItem.Enabled = false;
+            responsibleManagementToolStripMenuItem.Enabled = admin;
+            new FormResetPassword(responsableId).ShowDialog();
+        }
+
+        private void FormMenu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            formResponsableLogin.Show();
         }
     }
 }

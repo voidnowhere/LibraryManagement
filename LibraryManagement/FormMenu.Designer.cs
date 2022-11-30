@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMenu));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.clientManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ouvrageManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,10 +93,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(754, 421);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "FormMenu";
-            this.Text = "FormMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Menu";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMenu_FormClosing);
+            this.Load += new System.EventHandler(this.FormMenu_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
