@@ -169,7 +169,7 @@ namespace LibraryManagement
 
             using LibraryContext libraryContext = new LibraryContext();
 
-            Client client = libraryContext.Clients.AsNoTracking().First(c => c.CIN == textBoxNIC.Text);
+            Client client = libraryContext.Clients.First(c => c.CIN == textBoxNIC.Text);
 
             // if the client did not retrun the borrowed ouvrages he cannot borrow
             if (libraryContext.Emprunts.Count(e => e.Client == client && !e.Retourne) > 0)
