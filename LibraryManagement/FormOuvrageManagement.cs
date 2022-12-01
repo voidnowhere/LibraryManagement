@@ -48,11 +48,14 @@ namespace LibraryManagement
             {
                 return;
             }
-            if (!Regex.IsMatch(textBoxPeriodicity.Text, @"^\d+$"))
+            if (comboBoxOuvrageType.SelectedIndex == 0)
             {
-                MessageBox.Show("Periodicity should contains only numbers!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                textBoxPeriodicity.Focus();
-                return;
+                if (!Regex.IsMatch(textBoxPeriodicity.Text, @"^\d+$"))
+                {
+                    MessageBox.Show("Periodicity should contains only numbers!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    textBoxPeriodicity.Focus();
+                    return;
+                }
             }
             if (!Regex.IsMatch(textBoxQuantity.Text, @"^\d+$"))
             {
@@ -185,11 +188,14 @@ namespace LibraryManagement
                 MessageBox.Show("Please select an item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (!Regex.IsMatch(textBoxPeriodicity.Text, @"^\d+$"))
+            if (comboBoxOuvrageType.SelectedIndex == 0)
             {
-                MessageBox.Show("Periodicity should contains only numbers!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                textBoxPeriodicity.Focus();
-                return;
+                if (!Regex.IsMatch(textBoxPeriodicity.Text, @"^\d+$"))
+                {
+                    MessageBox.Show("Periodicity should contains only numbers!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    textBoxPeriodicity.Focus();
+                    return;
+                }
             }
             if (!Regex.IsMatch(textBoxQuantity.Text, @"^\d+$"))
             {
