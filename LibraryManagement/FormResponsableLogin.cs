@@ -34,7 +34,7 @@ namespace LibraryManagement
 
             using LibraryContext libraryContext = new LibraryContext();
 
-            Responsable? responsable = libraryContext.Responsables.FirstOrDefault(r => r.Id == int.Parse(textBoxLogin.Text));
+            Responsable? responsable = libraryContext.Responsables.FirstOrDefault(r => r.Id == int.Parse(textBoxLogin.Text) && r.Password == textBoxMDP.Text);
 
             if (responsable is null)
             {
