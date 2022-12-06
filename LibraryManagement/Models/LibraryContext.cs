@@ -25,7 +25,7 @@ namespace LibraryManagment.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Utilisateur>().Property("Discriminator").HasMaxLength(100);
+            modelBuilder.Entity<Utilisateur>().HasDiscriminator(u => u.Type);
             modelBuilder.Entity<Ouvrage>().HasDiscriminator(o => o.Type);
         }
     }
